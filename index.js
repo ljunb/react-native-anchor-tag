@@ -84,7 +84,6 @@ const styles = StyleSheet.create({
         position: 'absolute'
     },
     dotWrapper: {
-        zIndex: -1,
         backgroundColor: 'rgba(0,0,0,0.15)',
         width: OUTER_DOT_WIDTH,
         height: OUTER_DOT_WIDTH,
