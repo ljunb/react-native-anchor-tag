@@ -24,7 +24,7 @@ yarn add react-native-anchor-tag
 
 ## Demo
 
-See [RNAnchorTagDemo][https://github.com/ljunb/RNAnchorTagDemo]
+See [RNAnchorTagDemo](https://github.com/ljunb/RNAnchorTagDemo)
 
 ## Usage
 
