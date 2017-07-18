@@ -2,7 +2,7 @@
 
 [![npm](https://img.shields.io/npm/v/react-native-anchor-tag.svg)](https://www.npmjs.com/package/react-native-anchor-tag)
 [![npm](https://img.shields.io/npm/dt/react-native-anchor-tag.svg)](https://www.npmjs.com/package/react-native-anchor-tag)
-[![npm](https://img.shields.io/npm/l/react-native-anchor-tag.svg)](https://github.com/react-native-component/react-native-anthor-tag/blob/master/LICENSE)
+[![npm](https://img.shields.io/npm/l/react-native-anchor-tag.svg)](https://github.com/ljunb/react-native-anchor-tag/blob/master/LICENSE)
 
 A light anchor tag view for react-native apps. You may be used to display some anchor tag information for the image. Written in JS for cross-platform support. Enjoy it! 🎉🎉
 
@@ -24,7 +24,7 @@ yarn add react-native-anchor-tag
 
 ## Demo
 
-See [RNAnchorTagDemo](https://github.com/ljunb/RNAnchorTagDemo)
+See [RNAnchorTagDemo](https://github.com/ljunb/RNAnchorTagDemo).
 
 ## Usage
 

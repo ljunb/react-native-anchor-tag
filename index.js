@@ -14,13 +14,20 @@ import {
 } from 'react-native';
 const {width: screenW} = Dimensions.get('window');
 
-const LINE_LENGTH = 10;     // 45°线长度
-const MAX_WIDTH = 70;       // 锚点文本最大长度
-const OUTER_DOT_WIDTH = 8;  // 外圆宽高
-const INNER_DOT_WIDTH = 4;  // 内圆宽高
+// 45° line length
+const LINE_LENGTH = 10;
+// anchor label max width
+const MAX_LABEL_WIDTH = 70;
 
-// 默认的背景视图宽高
-const DEFAULT_BACKGROUND_WIDTH = screenW - 15*2;
+// translucent dot width and height
+const OUTER_DOT_WIDTH = 8;
+// white dot width and height
+const INNER_DOT_WIDTH = 4;
+
+// default anchors wrapper width
+const DEFAULT_BACKGROUND_WIDTH = screenW - 15 * 2;
+// defualt anchor label padding
+const DEFAULT_LABEL_PADDING = 4;
 
 export default class AnchorView extends Component {
     static propTypes = {
@@ -32,37 +39,37 @@ export default class AnchorView extends Component {
         backgroundWidth: DEFAULT_BACKGROUND_WIDTH,
     };
 
-    constructor(props) {
-        super(props);
-        this.state = this.mergeProps(props);
-    }
+    state = {width: 0};
 
-    componentWillReceiveProps(newProps) {
-        this.setState(this.mergeProps(newProps));
-    }
+    handleLabelWidth = evt => {
+        const {width} = evt.nativeEvent.layout;
+        if (this.state.width !== width) {
+            this.setState({width});
+        }
+    };
 
-    mergeProps = props => {
-        const {backgroundWidth, anchor} = props;
-        const left = anchor.x || 0, top = anchor.y || 0;
+    render() {
+        const {width} = this.state;
+        const {anchor: {name, x, y}, backgroundWidth} = this.props;
 
-        const isLeftDirection = (left + MAX_WIDTH) >= backgroundWidth;
+        // anchor label max width
+        const maxLabelWidth = (width > MAX_LABEL_WIDTH ? MAX_LABEL_WIDTH : width) + DEFAULT_LABEL_PADDING * 2;
+
+        // anchor position
+        const left = x || 0, top = y || 0;
+        const isLeftDirection = (left + maxLabelWidth) >= backgroundWidth;
+
+        // line style
         const line45Style = isLeftDirection ?
             {transform: [{rotate: '45deg'}], right: (INNER_DOT_WIDTH + OUTER_DOT_WIDTH) / 2} :
             {transform: [{rotate: '-45deg'}], left: (INNER_DOT_WIDTH + OUTER_DOT_WIDTH) / 2};
         const line180Style = isLeftDirection ? {right: LINE_LENGTH + 1} : {left: LINE_LENGTH + 1};
 
-        return {line45Style, line180Style, left, top};
-    };
-
-    render() {
-        const {line45Style, line180Style, left, top} = this.state;
-        const {anchor: {name}} = this.props;
-
         return (
             <View style={[styles.container, {top, left}]}>
                 <Dot style={styles.realDot}/>
                 <View style={[styles.line45, line45Style]}/>
-                <View style={[styles.line180, line180Style]}>
+                <View style={[styles.line180, line180Style]} onLayout={this.handleLabelWidth}>
                     <Text numberOfLines={2} style={styles.text}>{name}</Text>
                 </View>
             </View>
@@ -102,7 +109,7 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 12,
         lineHeight: 14,
-        maxWidth: MAX_WIDTH
+        maxWidth: MAX_LABEL_WIDTH
     },
     realDot: {
         position: 'absolute',
@@ -123,7 +130,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent'
     },
     line180: {
-        padding: 4,
+        padding: DEFAULT_LABEL_PADDING,
         borderBottomWidth: 1,
         borderColor: '#ffffff',
         position: 'absolute',
