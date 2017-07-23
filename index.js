@@ -41,6 +41,12 @@ export default class AnchorView extends Component {
 
     state = {width: 0};
 
+    shouldComponentUpdate(nextProps, nextState) {
+        const {anchor: {name: nextName}} = nextProps;
+        const {width: nextWidth} = nextState;
+        return this.props.anchor.name !== nextName || this.state.width !== nextWidth;
+    }
+
     handleLabelWidth = evt => {
         const {width} = evt.nativeEvent.layout;
         if (this.state.width !== width) {
@@ -70,7 +76,7 @@ export default class AnchorView extends Component {
                 <Dot style={styles.realDot}/>
                 <View style={[styles.line45, line45Style]}/>
                 <View style={[styles.line180, line180Style]} onLayout={this.handleLabelWidth}>
-                    <Text numberOfLines={2} style={styles.text}>{name}</Text>
+                    <Text numberOfLines={2} style={styles.text}>{name || 'Error key!'}</Text>
                 </View>
             </View>
         )
